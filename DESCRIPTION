@@ -1,0 +1,19 @@
+Package: UtilitiesDIVA
+Type: Package
+Title: Commonly used utility functions in UTMB DIVA lab for bipartite network analysis
+Version: 0.1.0
+Authors@R: c(person(given = "Suresh K.", family = "Bhavnani", role = c("aut"),),person(given = "Weibin",family = "Zhang", role = c( "cre","aut"), email = "weibzhan@utmb.edu"))
+Author: Suresh K. Bhavnani [aut], Weibin Zhang [cre, aut]
+Maintainer: Weibin Zhang <weibzhan@utmb.edu>
+Description: Utility functions related to data transformation, file management, network null models, and pipelines. 
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    BipartiteModularityMaximization,
+    ExplodeLayout,
+    igraph,
+    stats,
+    utils,
+    grDevices
+RoxygenNote: 7.1.2
