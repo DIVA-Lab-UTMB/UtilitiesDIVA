@@ -37,7 +37,7 @@ library(UtilitiesDIVA)
 utility_ModSig(fname = 'example', signif_preserve = 'col_deg', signif_N_sample = 1000)
 
 ## Network visualization using ExplodeLayout. Users can run this function multiple times for same network to explore different radius.
-utility_EL(fname = 'example', raius = 1.2, plotlabel = 'c')
+utility_EL(fname = 'example', radius = 1.2, plotlabel = 'c')
 ```
 
 ## Documentation
