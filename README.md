@@ -33,14 +33,35 @@ and naming convention):
 ## Load library
 library(UtilitiesDIVA)
 
-## Find clustering, modularity and significance of a bipartite network represented as an incidence matrix stored in "example_data.csv". This function should be run only once for each network.
-utility_ModSig(fname = 'example', signif_preserve = 'col_deg', signif_N_sample = 1000)
+## Find clustering and modularity of a bipartite network represented as an incidence matrix stored in "example_data.csv". This function should be run only once for each network.
+utility_Mod(
+  inputName_data = "example_data.csv",
+  outputName_nodelist = "example_nodelist.csv",
+  outputName_incidmat = "example_incidmat.csv",
+  outputName_modularity = "example_modularity.csv"
+)
+
+## Find significance of modularity of a bipartite network represented as an incidence matrix.
+utility_ModSig(
+  inputName_modularity = "example_modularity.csv",
+  inputName_incidmat = "example_incidmat.csv",
+  signif_preserve = "col_deg",
+  signif_N_sample = 10,
+  outputName_Qrandomdist = "example_Qrandomdist.csv",
+  outputName_zp_Q = "example_zp_Q.csv"
+)
 
 ## Network visualization using ExplodeLayout. Users can run this function multiple times for same network to explore different radius.
-utility_EL(fname = 'example', radius = 1.2, plotlabel = 'c')
+utility_EL(
+  inputName_nodelist = "example_nodelist.csv",
+  inputName_incidmat = "example_incidmat.csv",
+  radius = 1.5,
+  plotlabel = "c",
+  outputName_plotpdf = "example_plot.pdf"
+)
 ```
 
 ## Documentation
 
-Please read the documentation using `?utility_ModSig`, `?utility_EL` for
-more details such as naming convention.
+Please read the documentation using `utility_Mod`, `?utility_ModSig`, or
+`?utility_EL` for more details.
