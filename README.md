@@ -63,5 +63,5 @@ utility_EL(
 
 ## Documentation
 
-Please read the documentation using `utility_Mod`, `?utility_ModSig`, or
-`?utility_EL` for more details.
+Please read the documentation using `?utility_Mod`, `?utility_ModSig`,
+or `?utility_EL` for more details.
