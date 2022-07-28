@@ -156,7 +156,7 @@ remove_isolatedNodes = function(incid_mat) {
 #'
 get_nodelist = function(incid_mat, Cluster) {
   g = igraph::graph_from_incidence_matrix(incid_mat, weighted = TRUE)
-  XY = igraph::layout_with_fr(g)
+  XY = igraph::layout_with_fr(g, grid = 'nogrid')
   Label = igraph::V(g)$name
   X = XY[, 1]
   Y = XY[, 2]
