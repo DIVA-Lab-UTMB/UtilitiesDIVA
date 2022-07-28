@@ -43,9 +43,10 @@ utility_ModSig = function(inputName_modularity = 'example_modularity.csv' ,
                      outputName_Qrandomdist,
                      row.names = F)
     zp = get_significance_zp(Q_real, Q_randomdist$Q)
-    utils::write.csv(zp, outputName_zp_Q, row.names = F)
+    zp_df=data.frame('info'=names(zp),'value'=unlist(zp))
+    utils::write.csv(zp_df, outputName_zp_Q, row.names = F)
   } else {
     stop('signif_N_sample must be greater than 2.')
   }
-  return(zp)
+  return(zp_df)
 }
