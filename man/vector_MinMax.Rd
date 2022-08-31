@@ -4,13 +4,17 @@
 \alias{vector_MinMax}
 \title{MinMax transformation of a vector}
 \usage{
-vector_MinMax(x)
+vector_MinMax(x, min_val = 0, max_val = 1)
 }
 \arguments{
 \item{x}{a numeric vector of length at least 2 without missing values}
+
+\item{min_val}{minimum value after MinMax transformation. Also used if all values are identical.}
+
+\item{max_val}{maximum value after MinMax transformation}
 }
 \value{
-MinMax transformed vector as (x-min(x))/(max(x)-min(x))
+MinMax transformed vector as min_val+(max_val-min_val)*(x-min(x))/(max(x)-min(x))
 }
 \description{
 MinMax transformation of a vector

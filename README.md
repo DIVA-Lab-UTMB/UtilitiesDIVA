@@ -26,8 +26,7 @@ remotes::install_github("DIVA-Lab-UTMB/UtilitiesDIVA")
 ## Example
 
 This is a basic example which shows you how to solve a common problem
-(Note that both functions below are based on files with a certain format
-and naming convention):
+(Note that all functions below are based on files with certain formats):
 
 ``` r
 ## Load library
@@ -59,9 +58,39 @@ utility_EL(
   plotlabel = "c",
   outputName_plotpdf = "example_plot.pdf"
 )
+
+## Get exploded coordinates using ExplodeLayout, specify plotting features, and save new nodelist file and edgelist file with the added node features and edge features.
+utility_EL_advanced(
+  inputName_nodelist = 'example_nodelist.csv',
+  inputName_incidmat = 'example_incidmat.csv',
+  radius = 1.5,
+  outputName_nodelist = 'example_nodelist_plot.csv',
+  outputName_edgelist = 'example_edgelist_plot.csv',
+  plotlabel = 'col',
+  nodesize_min = 1,
+  nodesize_max = 10,
+  nodesize_by_degree = 'row',
+  nodeborder_row = 0.1,
+  nodeborder_col = 2,
+  nodelabelsize = 3,
+  edgethickness_min = 0.01,
+  edgethickness_max = 1,
+  edgegrayscale_min = 0.5,
+  edgegrayscale_max = 1,
+  edgethickness_by_weight = TRUE
+)
+
+## Plot a network using nodelist file and edgelist file prepared with plotting features, and save the plot.
+utility_EL_plot(
+  inputName_nodelist = 'example_nodelist_plot.csv',
+  inputName_edgelist = 'example_edgelist_plot.csv',
+  outputName = 'example_plot',
+  outputType = 'svg'
+)
 ```
 
 ## Documentation
 
 Please read the documentation using `?utility_Mod`, `?utility_ModSig`,
-or `?utility_EL` for more details.
+`?utility_EL`, `?utility_EL_advanced`, or `?utility_EL_plot` for more
+details.

@@ -15,5 +15,7 @@ Imports:
     igraph,
     stats,
     utils,
-    grDevices
+    grDevices,
+    ggplot2,
+    ggrepel
 RoxygenNote: 7.1.2
