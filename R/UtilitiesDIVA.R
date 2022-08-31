@@ -1,20 +1,25 @@
 #' MinMax transformation of a vector
 #'
 #' @param x a numeric vector of length at least 2 without missing values
+#' @param min_val minimum value after MinMax transformation. Also used if all values are identical.
+#' @param max_val maximum value after MinMax transformation
 #'
-#' @return MinMax transformed vector as (x-min(x))/(max(x)-min(x))
+#' @return MinMax transformed vector as min_val+(max_val-min_val)*(x-min(x))/(max(x)-min(x))
+#'
 #' @export
 #'
-vector_MinMax = function(x) {
+vector_MinMax = function(x,min_val=0,max_val=1) {
   if (length(x) < 2) {
     warning('length(x)<2')
-    return(x)
+    y=rep(0,length(x))
   } else if (max(x) - min(x) < .Machine$double.eps) {
     warning('max(x)-min(X)<.Machine$double.eps')
-    return(x)
+    y=rep(0,length(x))
   } else{
-    return((x - min(x)) / (max(x) - min(x)))
+    y=(x - min(x)) / (max(x) - min(x))
   }
+  z=min_val+y*(max_val-min_val)
+  return(z)
 }
 
 #' Center-Scale transformation of a vector
