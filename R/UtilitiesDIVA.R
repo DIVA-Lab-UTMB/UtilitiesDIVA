@@ -8,17 +8,19 @@
 #'
 #' @export
 #'
-vector_MinMax = function(x,min_val=0,max_val=1) {
+vector_MinMax = function(x,
+                         min_val = 0,
+                         max_val = 1) {
   if (length(x) < 2) {
     warning('length(x)<2')
-    y=rep(0,length(x))
+    y = rep(0, length(x))
   } else if (max(x) - min(x) < .Machine$double.eps) {
     warning('max(x)-min(X)<.Machine$double.eps')
-    y=rep(0,length(x))
+    y = rep(0, length(x))
   } else{
-    y=(x - min(x)) / (max(x) - min(x))
+    y = (x - min(x)) / (max(x) - min(x))
   }
-  z=min_val+y*(max_val-min_val)
+  z = min_val + y * (max_val - min_val)
   return(z)
 }
 
@@ -52,15 +54,20 @@ vector_CenterScale = function(x) {
 shuffle_incid_mat = function(incid_mat,
                              preserve = c('density', 'row_deg', 'col_deg')) {
   # shuffle incidence matrix based on some null model
+  incid_mat = as.matrix(incid_mat)
+  shuffled_mat = incid_mat
   if (preserve == 'density') {
-    return(matrix(sample(as.vector(incid_mat)), nrow(incid_mat)))
+    shuffled_mat = matrix(sample(as.vector(incid_mat)), nrow(incid_mat))
   } else if (preserve == 'row_deg') {
-    return(t(apply(incid_mat, 1, sample)))
+    shuffled_mat = t(apply(incid_mat, 1, sample))
   } else if (preserve == 'col_deg') {
-    return(apply(incid_mat, 2, sample))
+    shuffled_mat = apply(incid_mat, 2, sample)
   } else {
     stop(paste('Null model', preserve, 'currently not supported.'))
   }
+  rownames(shuffled_mat) = rownames(incid_mat)
+  colnames(shuffled_mat) = colnames(incid_mat)
+  return(as.data.frame(shuffled_mat))
 }
 
 #' Get modularity distribution of random networks generated from an original network using specific null model.
