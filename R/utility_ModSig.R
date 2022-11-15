@@ -1,7 +1,3 @@
-
-
-
-
 #' Find significance of bipartite network with customized null model
 #'
 #' @param inputName_modularity name of a csv file saving real modularity Q.
