@@ -33,8 +33,7 @@ utility_Mod = function(inputName_data = 'example_data.csv',
   )
   Q_A = BipartiteModularityMaximization::bipmod(incid_mat) # Get modularity and partition.
   nodelist = get_nodelist(incid_mat, Q_A$ASSIGN) # Get nodelist with coordinates and partition.
-  utils::write.csv(nodelist, outputName_nodelist, row.names =
-                     F) # Save nodelist.
+  utils::write.csv(nodelist, outputName_nodelist, row.names = F) # Save nodelist.
   utils::str(nodelist)
 
   Q = Q_A$MODULARITY
