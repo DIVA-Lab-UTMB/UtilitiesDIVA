@@ -17,5 +17,6 @@ Imports:
     utils,
     grDevices,
     ggplot2,
-    ggrepel
+    ggrepel,
+    fossil
 RoxygenNote: 7.1.2
