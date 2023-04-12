@@ -4,7 +4,13 @@
 \alias{enrich}
 \title{Do cluster pairwise enrichment for a binary outcome, optionally controlling for covariates.}
 \usage{
-enrich(data, cluster_colname, outcome_colname, covariate_colname = c())
+enrich(
+  data,
+  cluster_colname,
+  outcome_colname,
+  covariate_colname = c(),
+  weight_colname = NA
+)
 }
 \arguments{
 \item{data}{a dataframe containing cluster, outcome, and optionally covariates.}
@@ -14,6 +20,8 @@ enrich(data, cluster_colname, outcome_colname, covariate_colname = c())
 \item{outcome_colname}{name of a column containing binary outcome.}
 
 \item{covariate_colname}{a vector of names of columns for covariates. Default is empty.}
+
+\item{weight_colname}{weight for regression, optional}
 }
 \value{
 a list of 3 dataframes. 'pcc' is the full enrichment result. 'pcc_sig' only shows significant ones after Bonferroni correction. 'tb' is a simple counting table with proportions of outcome for each cluster.

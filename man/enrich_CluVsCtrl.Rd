@@ -9,7 +9,8 @@ enrich_CluVsCtrl(
   cluster_colname,
   ctrl_label,
   outcome_colname,
-  covariate_colname = c()
+  covariate_colname = c(),
+  weight_colname = NA
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ enrich_CluVsCtrl(
 \item{outcome_colname}{name of a column containing binary outcome.}
 
 \item{covariate_colname}{a vector of names of columns for covariates. Default is empty.}
+
+\item{weight_colname}{weight for regression, optional}
 }
 \value{
 a list of 3 dataframes. 'ccc' is the full enrichment result. 'ccc_sig' only shows significant ones after Bonferroni correction. 'tb' is a simple counting table with proportions of outcome for each cluster.

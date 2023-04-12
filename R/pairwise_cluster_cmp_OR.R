@@ -29,11 +29,12 @@ flat_2x2_01table=function(x,y){
 #' @param cluster_colname name of a column containing clustering information. Number of unique clusters should be at least 2.
 #' @param outcome_colname name of a column containing binary outcome.
 #' @param covariate_colname a vector of names of columns for covariates. Default is empty.
+#' @param weight_colname weight for regression, optional
 #'
 #' @return a dataframe containing enrichment information
 #' @export
 #'
-pairwise_clu_compare=function(data,cluster_colname,outcome_colname,covariate_colname=c()){
+pairwise_clu_compare=function(data,cluster_colname,outcome_colname,covariate_colname=c(),weight_colname=NA){
   uniq_clus=sort(unique(data[,cluster_colname]))
   n_clu=length(uniq_clus)
   # assume uniq_clus from 0 to n_clu-1
@@ -72,7 +73,13 @@ pairwise_clu_compare=function(data,cluster_colname,outcome_colname,covariate_col
 
       fmla=stats::as.formula(paste("y ~ ", paste(c('x',covariate_colname), collapse= "+")))
       #print(fmla)
-      model=stats::glm(fmla,data=only_ij_data,family=stats::binomial(link='logit'))
+      if(is.na(weight_colname)){
+        model=stats::glm(fmla,data=only_ij_data,family=stats::binomial(link='logit'))
+      }
+      else{
+        model=stats::glm(fmla,data=only_ij_data,family=stats::binomial(link='logit'),weights=only_ij_data[,weight_colname])
+      }
+      #model=stats::glm(fmla,data=only_ij_data,family=stats::binomial(link='logit'))
       # if strange errors, return NA
       this_orci=tryCatch(exp(cbind(OR=stats::coef(model), stats::confint(model)))['x',],
                          error=function(e) rep(NA,3))
@@ -128,12 +135,13 @@ print_OddsRatio=function(pcc){
 #' @param cluster_colname name of a column containing clustering information. Number of unique clusters should be at least 2.
 #' @param outcome_colname name of a column containing binary outcome.
 #' @param covariate_colname a vector of names of columns for covariates. Default is empty.
+#' @param weight_colname weight for regression, optional
 #'
 #' @return a list of 3 dataframes. 'pcc' is the full enrichment result. 'pcc_sig' only shows significant ones after Bonferroni correction. 'tb' is a simple counting table with proportions of outcome for each cluster.
 #' @export
 #'
-enrich=function(data,cluster_colname,outcome_colname,covariate_colname=c()){
-  pcc=pairwise_clu_compare(data,cluster_colname,outcome_colname,covariate_colname)
+enrich=function(data,cluster_colname,outcome_colname,covariate_colname=c(),weight_colname=NA){
+  pcc=pairwise_clu_compare(data,cluster_colname,outcome_colname,covariate_colname,weight_colname)
   pcc=as.data.frame.matrix(pcc)
   pcc$OR_text=print_OddsRatio(pcc)
   #stats::write.csv(pcc,sprintf('%s_clu_pairwise_cmp.csv',outname),row.names=F)
