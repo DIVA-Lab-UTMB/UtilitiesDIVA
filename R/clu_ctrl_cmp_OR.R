@@ -5,11 +5,12 @@
 #' @param ctrl_label label for control group. Should be one of the labels in cluster column.
 #' @param outcome_colname name of a column containing binary outcome.
 #' @param covariate_colname a vector of names of columns for covariates. Default is empty.
+#' @param weight_colname weight for regression, optional
 #'
 #' @return a dataframe containing enrichment information
 #' @export
 #'
-clu_ctrl_compare=function(data,cluster_colname,ctrl_label,outcome_colname,covariate_colname=c()){
+clu_ctrl_compare=function(data,cluster_colname,ctrl_label,outcome_colname,covariate_colname=c(),weight_colname=NA){
   uniq_clus=sort(unique(data[,cluster_colname]))
   if(!(ctrl_label %in% uniq_clus)){
     stop('ctrl_label not found in clusters!')
@@ -51,7 +52,13 @@ clu_ctrl_compare=function(data,cluster_colname,ctrl_label,outcome_colname,covari
 
       fmla=stats::as.formula(paste("y ~ ", paste(c('x',covariate_colname), collapse= "+")))
       #print(fmla)
-      model=stats::glm(fmla,data=only_ij_data,family=stats::binomial(link='logit'))
+      if(is.na(weight_colname)){
+        model=stats::glm(fmla,data=only_ij_data,family=stats::binomial(link='logit'))
+      }
+      else{
+        model=stats::glm(fmla,data=only_ij_data,family=stats::binomial(link='logit'),weights=only_ij_data[,weight_colname])
+      }
+      #model=stats::glm(fmla,data=only_ij_data,family=stats::binomial(link='logit'))
       # if strange errors, return NA
       this_orci=tryCatch(exp(cbind(OR=stats::coef(model), stats::confint(model)))['x',],
                          error=function(e) rep(NA,3))
@@ -72,12 +79,13 @@ clu_ctrl_compare=function(data,cluster_colname,ctrl_label,outcome_colname,covari
 #' @param ctrl_label label for control group. Should be one of the labels in cluster column.
 #' @param outcome_colname name of a column containing binary outcome.
 #' @param covariate_colname a vector of names of columns for covariates. Default is empty.
+#' @param weight_colname weight for regression, optional
 #'
 #' @return a list of 3 dataframes. 'ccc' is the full enrichment result. 'ccc_sig' only shows significant ones after Bonferroni correction. 'tb' is a simple counting table with proportions of outcome for each cluster.
 #' @export
 #'
-enrich_CluVsCtrl=function(data,cluster_colname,ctrl_label,outcome_colname,covariate_colname=c()){
-  ccc=clu_ctrl_compare(data,cluster_colname,ctrl_label,outcome_colname,covariate_colname)
+enrich_CluVsCtrl=function(data,cluster_colname,ctrl_label,outcome_colname,covariate_colname=c(),weight_colname=NA){
+  ccc=clu_ctrl_compare(data,cluster_colname,ctrl_label,outcome_colname,covariate_colname,weight_colname)
   ccc=as.data.frame.matrix(ccc)
   ccc$OR_text=print_OddsRatio(ccc)
   #stats::write.csv(ccc,sprintf('%s_clu_pairwise_cmp.csv',outname),row.names=F)

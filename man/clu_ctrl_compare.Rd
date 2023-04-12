@@ -9,7 +9,8 @@ clu_ctrl_compare(
   cluster_colname,
   ctrl_label,
   outcome_colname,
-  covariate_colname = c()
+  covariate_colname = c(),
+  weight_colname = NA
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ clu_ctrl_compare(
 \item{outcome_colname}{name of a column containing binary outcome.}
 
 \item{covariate_colname}{a vector of names of columns for covariates. Default is empty.}
+
+\item{weight_colname}{weight for regression, optional}
 }
 \value{
 a dataframe containing enrichment information
