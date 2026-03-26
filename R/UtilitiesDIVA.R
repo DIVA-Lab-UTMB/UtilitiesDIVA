@@ -167,6 +167,7 @@ remove_isolatedNodes = function(incid_mat) {
 #' @export
 #'
 get_nodelist = function(incid_mat, Cluster) {
+  incid_mat = as.matrix(incid_mat)
   g = igraph::graph_from_incidence_matrix(incid_mat, directed = F, weighted = TRUE)
   XY = igraph::layout_with_fr(g, grid = 'nogrid', set.seed(42))
   set.seed(seed = NULL) # If called with seed = NULL it re-initializes (see ‘Note’) as if no seed had yet been set.
